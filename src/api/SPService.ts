@@ -1,5 +1,5 @@
 import { BaseComponentContext } from '@microsoft/sp-component-base';
-import { sp, ItemAddResult } from '@pnp/sp';
+import { sp } from '@pnp/sp';
 
 export default class SPService {
     protected webUrl: string;

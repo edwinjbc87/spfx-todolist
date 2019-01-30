@@ -1,10 +1,7 @@
-export interface IToDoListProps {
-  toDoList: IToDoListItem[] ,
-  onDeleteItem?(id: number): Promise<void> ,
-  onAddItem?(toDo: string): Promise<void>
-}
+import { IToDoListItem } from './IToDoListItem';
 
-export interface IToDoListItem {
-  Id: number;
-  Title: string;
+export interface IToDoListProps {
+  toDoList: IToDoListItem[];
+  onDeleteItem?(id: number): Promise<void>;
+  onAddItem?(toDo: string): Promise<void>;
 }
