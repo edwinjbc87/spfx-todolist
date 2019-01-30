@@ -4,7 +4,7 @@ declare interface IToDoListWebPartStrings {
   ListTitleFieldLabel: string;
   Title: string;
   AddItemButtonText: string;
-  AddItemPlaceholder: string;
+  ToDoPlaceholder: string;
 }
 
 declare module 'ToDoListWebPartStrings' {

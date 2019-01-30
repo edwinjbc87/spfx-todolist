@@ -28,6 +28,11 @@ export default class SPService {
         return await sp.site.rootWeb.ensureUser(email).then(result => result.data.Id);
     }
 
+    public async getList(lst:string):Promise<any>{
+        let lists =  await sp.web.lists.filter("Title eq '"+lst+"' or Id eq '"+lst+"'").get();
+        return (lists && lists.length > 0?lists[0]:null);
+    }
+
     public async getItems(list:any, filters?:any, expand?:any, fields?:any, top?:any): Promise<any> {
         let res = [];
         

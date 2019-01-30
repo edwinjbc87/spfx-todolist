@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as strings from 'ToDoListWebPartStrings';
 import styles from './ToDoList.module.scss';
 import { IToDoListProps } from './IToDoListProps';
 import { IToDoListItem } from './IToDoListItem';
@@ -19,7 +20,7 @@ import {
 
 export interface IToDoListState {
   toDo?: string;
-  toDoList: IToDoListItem[];
+  items: IToDoListItem[];
 }
 
 export default class ToDoList extends React.Component<IToDoListProps, IToDoListState> {
@@ -30,7 +31,7 @@ export default class ToDoList extends React.Component<IToDoListProps, IToDoListS
 
     this.state = {
       toDo: '',
-      toDoList: this.props.toDoList
+      items: this.props.items
     };
 
     this._onRenderCell = this._onRenderCell.bind(this);
@@ -48,17 +49,18 @@ export default class ToDoList extends React.Component<IToDoListProps, IToDoListS
                 direction={ FocusZoneDirection.vertical }
                 isInnerZoneKeystroke={ (ev: React.KeyboardEvent<HTMLElement>) => ev.which === getRTLSafeKeyCode(KeyCodes.right) }
                 >
-                <h1 className={ styles.title }>To Do List</h1>
+                <h1 className={ styles.title }>{strings.Title}</h1>
                 <div className={ styles.toDoListForm }>
                   <TextField 
                     className={ styles.toDoTextField } 
+                    placeholder={ strings.ToDoPlaceholder }
                     value={this.state.toDo} 
                     ref={(input) => this.inputToDo = input}                    
                     onGetErrorMessage={this._getErrorMessage}
                     validateOnLoad={false}></TextField>                  
-                  <PrimaryButton className={ styles.toDoButton } iconProps={{ iconName: 'Add' }} onClick={(e)=>this.handleAddItem(this.inputToDo.value)}>Add</PrimaryButton>
+                  <PrimaryButton className={ styles.toDoButton } iconProps={{ iconName: 'Add' }} onClick={(e)=>this.handleAddItem(this.inputToDo.value)}>{strings.AddItemButtonText}</PrimaryButton>
                 </div>
-                <List items={this.state.toDoList} onRenderCell={this._onRenderCell}></List>
+                <List items={this.state.items} onRenderCell={this._onRenderCell}></List>
               </FocusZone>
             </div>
             
@@ -73,9 +75,9 @@ export default class ToDoList extends React.Component<IToDoListProps, IToDoListS
       this.props.onAddItem(toDo);
     } else {
       if(toDo.trim() != ''){
-        let item = {Id: (new Date()).getTime(), Title: toDo};
+        const item = {Id: (new Date()).getTime(), Title: toDo};
         this.addItem(item);
-      }      
+      }
     }
   }
 
@@ -88,19 +90,19 @@ export default class ToDoList extends React.Component<IToDoListProps, IToDoListS
   }
 
   public addItem(item: IToDoListItem):void{
-    this.setState({toDo: '', toDoList: [...this.state.toDoList,item]});
+    this.setState({toDo: '', items: [...this.state.items,item]});
   }
   
   public deleteItem(id: number):void{
-    this.setState({toDoList: this.state.toDoList.filter((_, i) => _.Id !== id)});
+    this.setState({items: this.state.items.filter((_, i) => _.Id !== id)});
   }
 
   public getItems():IToDoListItem[]{
-    return this.state.toDoList;
+    return this.state.items;
   }
 
   public setItems(items:IToDoListItem[]):void{
-    this.setState({toDoList: items});
+    this.setState({items: items});
   }
 
   private _onChange(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string): void {

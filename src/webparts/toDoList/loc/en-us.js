@@ -5,6 +5,6 @@ define([], function() {
     "ListTitleFieldLabel": "List Title",
     "Title": "To Do List",
     "AddItemButtonText": "Add",
-    "AddItemPlaceholder": "Enter a todo item"
+    "ToDoPlaceholder": "Enter a todo item"
   }
 });
