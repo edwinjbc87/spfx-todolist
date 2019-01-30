@@ -1,6 +1,6 @@
 ## To Do List using SPFx
 
-This is where you include your WebPart documentation.
+A simple web part example to show SPFx and PnP capabilities.
 
 ### Building the code
 
