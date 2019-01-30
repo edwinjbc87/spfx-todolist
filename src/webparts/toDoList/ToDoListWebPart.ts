@@ -15,26 +15,25 @@ import SPService from '../../api/SPService';
 import ICommonWebPartProps from '../ICommonWebPartProps';
 import { elementContains } from 'office-ui-fabric-react';
 
-export interface IToDoListWebPartProps extends ICommonWebPartProps{}
+export interface IToDoListWebPartProps{
+  listTitle: string,
+}
 
 export default class ToDoListWebPart extends BaseClientSideWebPart<IToDoListWebPartProps> {
   private service:SPService;
+  private webUrl:string;
   private element:ToDoList;
-  private items;
+  private items:IToDoListItem[];
 
   protected async onInit(): Promise<void> {    
-    this.service = new SPService(this.context);
-        
+    this.service = new SPService(this.context);        
     await this.service.init();    
 
-    this.properties.webUrl = this.context.pageContext.web.absoluteUrl;
-    this.properties.userEmail = this.context.pageContext.user.email;
-    this.properties.userId = await this.service.getUserId(this.properties.userEmail);
-    this.items = await this.service.getItems('LST_ToDoList');
+    this.webUrl = this.context.pageContext.web.absoluteUrl;
+    this.items = await this.service.getItems(this.properties.listTitle);
     
     this._onCreateToDoItem = this._onCreateToDoItem.bind(this);
     this._onDeleteToDoItem = this._onDeleteToDoItem.bind(this);
-    this.setRef = this.setRef.bind(this);
   }
 
   public render(): void {
@@ -44,18 +43,14 @@ export default class ToDoListWebPart extends BaseClientSideWebPart<IToDoListWebP
       onDeleteItem: this._onDeleteToDoItem,
     };
     
-    let elem = React.createElement(
+    const elem = React.createElement(
       ToDoList,
       {
-        ...props, ref: this.setRef
+        ...props, ref: (elem) =>{ this.element = elem; }
       }
     );
 
     ReactDom.render(elem, this.domElement);
-  }
-
-  private setRef(elm:any){
-    this.element = elm;
   }
 
   protected onDispose(): void {
@@ -68,16 +63,16 @@ export default class ToDoListWebPart extends BaseClientSideWebPart<IToDoListWebP
 
   private async _onCreateToDoItem(toDo:string): Promise<void>{
     if(toDo.trim() != ''){
-      let it = await this.service.saveItem("LST_ToDoList",{Title: toDo});
+      const it = await this.service.saveItem(this.properties.listTitle, {Title: toDo});
       if(it != null){
-        let item:IToDoListItem = {Id: it.Id, Title: it.Title};
+        const item:IToDoListItem = {Id: it.Id, Title: it.Title};
         this.element.addItem(item);
       }
     }
   }
 
   private async _onDeleteToDoItem(id:number): Promise<void>{
-    if(await this.service.deleteItem("LST_ToDoList", id)){
+    if(await this.service.deleteItem(this.properties.listTitle, id)){
       this.element.deleteItem(id);
     }
   }
@@ -87,14 +82,14 @@ export default class ToDoListWebPart extends BaseClientSideWebPart<IToDoListWebP
       pages: [
         {
           header: {
-            description: strings.PropertyPaneDescription
+            description: strings.PropertyPaneTitle
           },
           groups: [
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyPaneTextField('description', {
-                  label: strings.DescriptionFieldLabel
+                PropertyPaneTextField('listTitle', {
+                  label: strings.ListTitleFieldLabel
                 })
               ]
             }

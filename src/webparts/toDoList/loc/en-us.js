@@ -1,7 +1,10 @@
 define([], function() {
   return {
-    "PropertyPaneDescription": "Description",
-    "BasicGroupName": "Group Name",
-    "DescriptionFieldLabel": "Description Field"
+    "PropertyPaneTitle": "Configuration Pane",
+    "BasicGroupName": "General",
+    "ListTitleFieldLabel": "List Title",
+    "Title": "To Do List",
+    "AddItemButtonText": "Add",
+    "AddItemPlaceholder": "Enter a todo item"
   }
 });

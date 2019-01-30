@@ -116,8 +116,8 @@ export default class ToDoList extends React.Component<IToDoListProps, IToDoListS
   private _onRenderCell = (item: IToDoListItem, index: number): JSX.Element =>{
     return (
       <div className={ styles.toDoListItem } data-is-focusable={true}>
-        <Label data-id={item.Id}>{item.Title}</Label>
-        <IconButton  iconProps={{ iconName: 'Delete' }} data={{Id: item.Id}} onClick={(e)=>this.handleDeleteItem(item.Id)} />
+        <Label>{item.Title}</Label>
+        <IconButton  iconProps={{ iconName: 'Delete' }} onClick={(e)=>this.handleDeleteItem(item.Id)} />
       </div>
     );
   }

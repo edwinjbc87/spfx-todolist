@@ -1,7 +1,10 @@
 declare interface IToDoListWebPartStrings {
-  PropertyPaneDescription: string;
+  PropertyPaneTitle: string;
   BasicGroupName: string;
-  DescriptionFieldLabel: string;
+  ListTitleFieldLabel: string;
+  Title: string;
+  AddItemButtonText: string;
+  AddItemPlaceholder: string;
 }
 
 declare module 'ToDoListWebPartStrings' {
