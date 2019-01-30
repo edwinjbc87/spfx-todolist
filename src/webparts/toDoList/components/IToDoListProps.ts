@@ -1,10 +1,7 @@
-import SPService from "../../../api/SPService";
-
 export interface IToDoListProps {
-  description: string;
-  toDo?: string;
-  toDoList: IToDoListItem[];
-  service:SPService;
+  toDoList: IToDoListItem[] ,
+  onDeleteItem?(id: number): Promise<void> ,
+  onAddItem?(toDo: string): Promise<void>
 }
 
 export interface IToDoListItem {

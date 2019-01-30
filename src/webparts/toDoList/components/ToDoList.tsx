@@ -32,18 +32,14 @@ export default class ToDoList extends React.Component<IToDoListProps, IToDoListS
       toDoList: this.props.toDoList
     };
 
-    
+    this.addItem = this.addItem.bind(this);
+    this.deleteItem = this.deleteItem.bind(this);
     this._onRenderCell = this._onRenderCell.bind(this);
-    this._deleteToDoItem = this._deleteToDoItem.bind(this);
     this._onChange = this._onChange.bind(this);
     this._getErrorMessage = this._getErrorMessage.bind(this);
-    this._createToDoItem = this._createToDoItem.bind(this);
-
   }
 
   public render(): React.ReactElement<IToDoListProps> {
-
-
     return (
       <div className={ styles.toDoList }>
         <div className={ styles.container }>
@@ -62,9 +58,7 @@ export default class ToDoList extends React.Component<IToDoListProps, IToDoListS
                     onGetErrorMessage={this._getErrorMessage}
                     validateOnLoad={false}></TextField>                  
                   <PrimaryButton className={ styles.toDoButton } iconProps={{ iconName: 'Add' }} onClick={(event:any)=>{
-                    if(this.inputToDo.value.trim() != ''){
-                      this._createToDoItem(this.inputToDo.value);
-                    }
+                    this.props.onAddItem(this.inputToDo.value);                    
                   }}>Add</PrimaryButton>
                 </div>
                 <List items={this.state.toDoList} onRenderCell={this._onRenderCell}></List>
@@ -76,7 +70,29 @@ export default class ToDoList extends React.Component<IToDoListProps, IToDoListS
       </div>
     );
   }
+
+  public addItem(item: IToDoListItem):void{
+    let toDoList = JSON.parse(JSON.stringify(this.state.toDoList));
+    
+    toDoList.push(item);
+    
+    this.setState({toDo: '', toDoList: toDoList});
+  }
   
+  public deleteItem(id: number):void{    
+    let idx = -1;
+    let toDoList = JSON.parse(JSON.stringify(this.state.toDoList));
+
+    for(let i=0; i < toDoList.length; i++){
+      if(toDoList[i].Id == id){
+        idx = i; break;
+      }
+    }
+    
+    if(idx>=0) toDoList.splice(idx, 1);
+
+    this.setState({toDoList: toDoList});
+  }
 
   private _onChange(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string): void {
     this.setState({
@@ -88,25 +104,11 @@ export default class ToDoList extends React.Component<IToDoListProps, IToDoListS
     return value?'':"This field is required";
   }
   
-  private async _createToDoItem(toDo:string): Promise<any>{
-    await this.props.service.saveItem("LST_ToDoList",{Title: toDo});
-    let items:IToDoListItem[] = await this.props.service.getItems("LST_ToDoList");
-    
-    this.setState({toDoList: items, toDo: ''});
-  }
-
-  private async _deleteToDoItem(id:number): Promise<any>{
-    await this.props.service.deleteItem("LST_ToDoList", id);
-    let items:IToDoListItem[] = await this.props.service.getItems("LST_ToDoList");
-    
-    this.setState({toDoList: items, toDo: ''});   
-  }
-
   private _onRenderCell = (item: IToDoListItem, index: number): JSX.Element =>{
     return (
       <div className={ styles.toDoListItem } data-is-focusable={true}>
         <Label data-id={item.Id}>{item.Title}</Label>
-        <IconButton  iconProps={{ iconName: 'Delete' }} data-id={item.Id} onClick={(evt:any)=>{this._deleteToDoItem(item.Id)}} />
+        <IconButton  iconProps={{ iconName: 'Delete' }} data-id={item.Id} onClick={(evt:any)=>{this.props.onDeleteItem(item.Id)}} />
       </div>
     );
   }

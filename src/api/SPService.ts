@@ -1,5 +1,5 @@
 import { BaseComponentContext } from '@microsoft/sp-component-base';
-import { sp } from '@pnp/sp';
+import { sp, ItemAddResult } from '@pnp/sp';
 
 export default class SPService {
     protected webUrl: string;
@@ -74,15 +74,17 @@ export default class SPService {
         return user;
     }
 
-    public async saveItem(lista, item): Promise<void> {
-        let it = null;
+    public async saveItem(lista, item): Promise<any> {
+        let it:any = null;
         try {
           if (item.Id){
             let id = item.Id;
             delete item.Id;
-            it = await sp.web.lists.getByTitle(lista).items.getById(id).update(item);
+            let itu = await sp.web.lists.getByTitle(lista).items.getById(id).update(item);
+            it = await itu.item.get();
           } else {
-            it = await sp.web.lists.getByTitle(lista).items.add(item);
+            let ita = await sp.web.lists.getByTitle(lista).items.add(item);
+            it = ita.data;
           }
         } catch (err) {
           it = null;
