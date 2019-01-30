@@ -4,7 +4,7 @@ define([], function() {
     "BasicGroupName": "General",
     "ListTitleFieldLabel": "Título de Lista",
     "Title": "Lista de Tareas",
-    "AddItemButtonText": "Aregar",
+    "AddItemButtonText": "Agregar",
     "ToDoPlaceholder": "Ingrese una tarea..."
   }
 });
