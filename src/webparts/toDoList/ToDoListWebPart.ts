@@ -12,7 +12,6 @@ import ToDoList from './components/ToDoList';
 import { IToDoListProps } from './components/IToDoListProps';
 import { IToDoListItem } from './components/IToDoListItem';
 import SPService from '../../api/SPService';
-import ICommonWebPartProps from '../ICommonWebPartProps';
 import { elementContains } from 'office-ui-fabric-react';
 
 export interface IToDoListWebPartProps{

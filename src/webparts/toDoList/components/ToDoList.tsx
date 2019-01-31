@@ -3,11 +3,9 @@ import * as strings from 'ToDoListWebPartStrings';
 import styles from './ToDoList.module.scss';
 import { IToDoListProps } from './IToDoListProps';
 import { IToDoListItem } from './IToDoListItem';
-import { escape } from '@microsoft/sp-lodash-subset';
 
 import { 
   TextField, 
-  ProgressIndicator,
   PrimaryButton, 
   IconButton, 
   List, 
