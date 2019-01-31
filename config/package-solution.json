@@ -1,12 +1,12 @@
 {
   "$schema": "https://dev.office.com/json-schemas/spfx-build/package-solution.schema.json",
   "solution": {
-    "name": "spfx-client-side-solution",
+    "name": "spfx-todolist-client-side-solution",
     "id": "c9f83b7a-424e-4ea8-9bf9-8442754ca65d",
     "version": "1.0.0.0",
     "includeClientSideAssets": true
   },
   "paths": {
-    "zippedPackage": "solution/spfx.sppkg"
+    "zippedPackage": "solution/spfx-todolist.sppkg"
   }
 }
